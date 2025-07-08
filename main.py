@@ -1,5 +1,6 @@
 import pygame
-import player, field, config
+from src import player, field
+import config
 
 
 # инициализация объектов
