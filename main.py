@@ -145,31 +145,39 @@ void_img = pygame.transform.scale(void_img, (tile_width, tile_height))
 clock = pygame.time.Clock()
 field.generate()
 
-running = True
-while running:
-    screen.fill((255, 255, 255)) #заливка окна
-    runtime += 1
-    if runtime == fps:
-        field.tick()
-        runtime = 0
-
-    field.draw_grid()
-    player.draw_player()
-
+active = True
+while active:
     for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:
-                player.move('right')
-            if event.key == pygame.K_w:
-                player.move('up')   
-            if event.key == pygame.K_s:
-                player.move('down')
-            if event.key == pygame.K_a:
-                player.move('left') 
-
-    pygame.display.flip() #"refresh" в pygame
-    clock.tick(fps) #задержка
+            if event.type == pygame.QUIT:
+                active = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    running = True
+                    while running and active:
+                        screen.fill((255, 255, 255)) #заливка окна
+                        runtime += 1
+                        if runtime == fps:
+                            field.tick()
+                            runtime = 0
+                    
+                        
+                        field.draw_grid()
+                        player.draw_player()
+                    
+                        for event in pygame.event.get():
+                            if event.type == pygame.QUIT:
+                                active = False
+                            if event.type == pygame.KEYDOWN:
+                                if event.key == pygame.K_d:
+                                    player.move('right')
+                                if event.key == pygame.K_w:
+                                    player.move('up')   
+                                if event.key == pygame.K_s:
+                                    player.move('down')
+                                if event.key == pygame.K_a:
+                                    player.move('left') 
+                    
+                        pygame.display.flip() #"refresh" в pygame
+                        clock.tick(fps) #задержка
 
 pygame.quit()
