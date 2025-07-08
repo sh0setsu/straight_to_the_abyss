@@ -76,7 +76,7 @@ class Field:
         return None
 
     def tile_death(self):
-        position = random.randint(0, tiles_count - 1)
+        position = random.randint(0, int(n * m - tiles_count))
         k = 0
         break_flag = False
         for i in range(n):
@@ -161,6 +161,7 @@ field.generate()
 
 active = True
 while active:
+    
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             active = False
@@ -200,5 +201,8 @@ while active:
 
                     pygame.display.flip()  # "refresh" в pygame
                     clock.tick(fps)  # задержка
+
+    pygame.display.flip()       
+    clock.tick(fps)
 
 pygame.quit()
