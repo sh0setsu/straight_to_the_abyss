@@ -96,14 +96,14 @@ width = 640 #ширина экрана
 height = 640 #высота экрана
 half_decay_time = 6 #с какой секунды плита треснет
 decay_tine = 3 #с какой секунды плита будет выглядеть как почти сломавшаяся
-min_start_tile_time = 7 #для рандома стартового времени платформы
-max_start_tile_time = 9 #для рандома стартового времени платформы
+min_start_tile_time = 9 #для рандома стартового времени платформы
+max_start_tile_time = 7 #для рандома стартового времени платформы
 fps = 60
 character_width = 30
 character_height = 30
 tiles_count = int(m * n / 2) #надо изменить
 tile_width = 30
-tile_height = 50
+tile_height = 30
 
 #инициализация объектов
 player = Player(0, 0)
