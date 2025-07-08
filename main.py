@@ -2,6 +2,7 @@ import numpy as np
 import pygame
 import random
 
+
 class Player:
 
     def __init__(self, x, y):
@@ -35,22 +36,22 @@ class Player:
                 if self.y < n - 2:
                     self.y += 2
         return None
-    
+
     def set(self, x, y):
         self.x = x
         self.y = y
         return None
-    
+
     def get(self):
         return (self.x, self.y)
-    
+
     def draw_player(self):
         screen.blit(character_img, (self.x * tile_width, self.y * tile_height))
         return None
 
 
 class Field:
-    
+
     def __init__(self, n, m):
         self.n = n
         self.m = m
@@ -89,7 +90,7 @@ class Field:
                         break
                     k += 1
         return None
-            
+
     def tick(self):
         for i in range(n):
             for j in range(m):
@@ -117,32 +118,33 @@ class Field:
         return None
 
 
-#входные переменные
-n = 4 #кол-во строк
-m = 12 #кол-во столбцов
-width = 1280 #ширина экрана
-height = 640 #высота экрана
-half_decay_time = 6 #с какой секунды плита треснет
-decay_time = 3 #с какой секунды плита будет выглядеть как почти сломавшаяся
-min_start_tile_time = 7 #для рандома стартового времени платформы
-max_start_tile_time = 9 #для рандома стартового времени платформы
+# входные переменные
+n = 4  # кол-во строк
+m = 12  # кол-во столбцов
+width = 1280  # ширина экрана
+height = 640  # высота экрана
+half_decay_time = 6  # с какой секунды плита треснет
+decay_time = 3  # с какой секунды плита будет выглядеть как почти сломавшаяся
+min_start_tile_time = 7  # для рандома стартового времени платформы
+max_start_tile_time = 9  # для рандома стартового времени платформы
 fps = 60
 character_width = 100
 character_height = 100
-tiles_count = int(m * n / 2) #надо изменить
+tiles_count = int(m * n / 2)  # надо изменить
 tile_width = 100
 tile_height = 100
 
-#инициализация объектов
+# инициализация объектов
 player = Player(0, 0)
 field = Field(n, m)
 runtime = 0
 
-#тело игры
+# тело игры
 pygame.init()
 
-screen = pygame.display.set_mode((width, height)) #создание основного окна
-character_img = pygame.image.load('img/character.png').convert_alpha() #convert чтобы объект стал "surface" и с ним можно было работать
+screen = pygame.display.set_mode((width, height))  # создание основного окна
+character_img = pygame.image.load(
+    'img/character.png').convert_alpha()  # convert чтобы объект стал "surface" и с ним можно было работать
 character_img = pygame.transform.scale(character_img, (character_width, character_height))
 tile_img = pygame.image.load('img/tile.png').convert_alpha()
 tile_img = pygame.transform.scale(tile_img, (tile_width, tile_height))
@@ -160,61 +162,43 @@ field.generate()
 active = True
 while active:
     for event in pygame.event.get():
-<<<<<<< HEAD
         if event.type == pygame.QUIT:
-            running = False
+            active = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                player.move('right')
-            if event.key == pygame.K_w and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                player.move('up')   
-            if event.key == pygame.K_s and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                player.move('down')
-            if event.key == pygame.K_a and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                player.move('left')
-            if event.key == pygame.K_d and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                player.move('jump_right')
-            if event.key == pygame.K_w and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                player.move('jump_up')
-            if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                player.move('jump_down')
-            if event.key == pygame.K_a and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                player.move('jump_left')
+            if event.key == pygame.K_RETURN:
+                running = True
+                while running and active:
+                    screen.fill((255, 255, 255))  # заливка окна
+                    runtime += 1
+                    if runtime == fps:
+                        field.tick()
+                        runtime = 0
 
-    pygame.display.flip() #"refresh" в pygame
-    clock.tick(fps) #задержка
-=======
-            if event.type == pygame.QUIT:
-                active = False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RETURN:
-                    running = True
-                    while running and active:
-                        screen.fill((255, 255, 255)) #заливка окна
-                        runtime += 1
-                        if runtime == fps:
-                            field.tick()
-                            runtime = 0
-                    
-                        
-                        field.draw_grid()
-                        player.draw_player()
-                    
-                        for event in pygame.event.get():
-                            if event.type == pygame.QUIT:
-                                active = False
-                            if event.type == pygame.KEYDOWN:
-                                if event.key == pygame.K_d:
-                                    player.move('right')
-                                if event.key == pygame.K_w:
-                                    player.move('up')   
-                                if event.key == pygame.K_s:
-                                    player.move('down')
-                                if event.key == pygame.K_a:
-                                    player.move('left') 
-                    
-                        pygame.display.flip() #"refresh" в pygame
-                        clock.tick(fps) #задержка
->>>>>>> 63a7fc3fbe4589efa42545ee2a7c48f7fbc1bfbf
+                    field.draw_grid()
+                    player.draw_player()
+
+                    for event in pygame.event.get():
+                        if event.type == pygame.QUIT:
+                            active = False
+                        if event.type == pygame.KEYDOWN:
+                            if event.key == pygame.K_d and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+                                player.move('right')
+                            if event.key == pygame.K_w and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+                                player.move('up')
+                            if event.key == pygame.K_s and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+                                player.move('down')
+                            if event.key == pygame.K_a and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+                                player.move('left')
+                            if event.key == pygame.K_d and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                                player.move('jump_right')
+                            if event.key == pygame.K_w and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                                player.move('jump_up')
+                            if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                                player.move('jump_down')
+                            if event.key == pygame.K_a and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                                player.move('jump_left')
+
+                    pygame.display.flip()  # "refresh" в pygame
+                    clock.tick(fps)  # задержка
 
 pygame.quit()
