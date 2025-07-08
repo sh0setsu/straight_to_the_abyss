@@ -40,8 +40,13 @@ class Player:
         return None
 
     def get(self):
-        return (self.x, self.y)
+        return self.x, self.y
 
     def draw_player(self, screen):
         screen.blit(config.character_img, (self.x * config.tile_width, self.y * config.tile_height))
         return None
+    
+    def check_win(self):
+        if self.x == config.m - 1 and self.y == config.n - 1:
+            return True
+        return False

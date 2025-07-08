@@ -69,3 +69,8 @@ class Field:
                 else:
                     screen.blit(config.tile_img, (j * config.tile_width, i * config.tile_height))
         return None
+    
+    def check_tile(self, x, y):
+        if self.matrix[y][x] != 0:
+            return True
+        return False
