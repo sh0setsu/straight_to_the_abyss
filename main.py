@@ -48,6 +48,8 @@ class Field:
         k = 0
         i = 0
         j = 0
+        self.matrix[0][0] = -1
+        self.matrix[n - 1][m - 1] = -1
         while k < tiles_count:
             if random.randint(0, 1) == 1 and self.matrix[i][j] == 0:
                 k += 1
@@ -81,13 +83,17 @@ class Field:
             for j in range(m):
                 if self.matrix[i][j] == 1:
                     self.tile_death()
-                if self.matrix[i][j] != 0:
+                if self.matrix[i][j] > 0:
                     self.matrix[i][j] -= 1
         return None
 
     def draw_grid(self):
+        screen.blit(tile_img, (0, 0))
+        screen.blit(final_tile_img, ((m - 1) * tile_width, (n - 1) * tile_height))
         for i in range(n):
             for j in range(m):
+                if (i == 0 and j == 0) or (i == n - 1 and j == m - 1):
+                    continue
                 if self.matrix[i][j] == 0:
                     screen.blit(void_img, (j * tile_width, i * tile_height))
                 elif self.matrix[i][j] <= decay_time:
@@ -128,6 +134,8 @@ character_img = pygame.image.load('img/character.png').convert_alpha() #convert 
 character_img = pygame.transform.scale(character_img, (character_width, character_height))
 tile_img = pygame.image.load('img/tile.png').convert_alpha()
 tile_img = pygame.transform.scale(tile_img, (tile_width, tile_height))
+final_tile_img = pygame.image.load('img/final_tile.png').convert_alpha()
+final_tile_img = pygame.transform.scale(final_tile_img, (tile_width, tile_height))
 half_decay_tile_img = pygame.image.load('img/half_decay_tile.png').convert_alpha()
 half_decay_tile_img = pygame.transform.scale(half_decay_tile_img, (tile_width, tile_height))
 decay_tile_img = pygame.image.load('img/decay_tile.png').convert_alpha()
