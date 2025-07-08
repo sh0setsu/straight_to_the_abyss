@@ -84,7 +84,13 @@ class Field:
     def draw_grid(self):
         for i in range(n):
             for j in range(m):
-                if self.matrix[i][j] != 0:
+                if self.matrix[i][j] == 0:
+                    screen.blit(void_img, (j * tile_width, i * tile_height))
+                elif self.matrix[i][j] <= decay_time:
+                    screen.blit(decay_tile_img, (j * tile_width, i * tile_height))
+                elif self.matrix[i][j] <= half_decay_time:
+                    screen.blit(half_decay_tile_img, (j * tile_width, i * tile_height))
+                else:
                     screen.blit(tile_img, (j * tile_width, i * tile_height))
         return None
 
@@ -92,18 +98,18 @@ class Field:
 #входные переменные
 n = 4 #кол-во строк
 m = 12 #кол-во столбцов
-width = 640 #ширина экрана
+width = 1280 #ширина экрана
 height = 640 #высота экрана
 half_decay_time = 6 #с какой секунды плита треснет
-decay_tine = 3 #с какой секунды плита будет выглядеть как почти сломавшаяся
-min_start_tile_time = 9 #для рандома стартового времени платформы
-max_start_tile_time = 7 #для рандома стартового времени платформы
+decay_time = 3 #с какой секунды плита будет выглядеть как почти сломавшаяся
+min_start_tile_time = 7 #для рандома стартового времени платформы
+max_start_tile_time = 9 #для рандома стартового времени платформы
 fps = 60
-character_width = 30
-character_height = 30
+character_width = 100
+character_height = 100
 tiles_count = int(m * n / 2) #надо изменить
-tile_width = 30
-tile_height = 30
+tile_width = 100
+tile_height = 100
 
 #инициализация объектов
 player = Player(0, 0)
@@ -114,10 +120,16 @@ runtime = 0
 pygame.init()
 
 screen = pygame.display.set_mode((width, height)) #создание основного окна
-character_img = pygame.image.load('img/character_temp.png').convert_alpha() #convert чтобы объект стал "surface" и с ним можно было работать
+character_img = pygame.image.load('img/character.png').convert_alpha() #convert чтобы объект стал "surface" и с ним можно было работать
 character_img = pygame.transform.scale(character_img, (character_width, character_height))
-tile_img = pygame.image.load('img/dot.png').convert_alpha()
+tile_img = pygame.image.load('img/tile.png').convert_alpha()
 tile_img = pygame.transform.scale(tile_img, (tile_width, tile_height))
+half_decay_tile_img = pygame.image.load('img/half_decay_tile.png').convert_alpha()
+half_decay_tile_img = pygame.transform.scale(half_decay_tile_img, (tile_width, tile_height))
+decay_tile_img = pygame.image.load('img/decay_tile.png').convert_alpha()
+decay_tile_img = pygame.transform.scale(decay_tile_img, (tile_width, tile_height))
+void_img = pygame.image.load('img/void.png').convert_alpha()
+void_img = pygame.transform.scale(void_img, (tile_width, tile_height))
 clock = pygame.time.Clock()
 field.generate()
 
