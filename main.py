@@ -22,6 +22,18 @@ class Player:
             case 'down':
                 if self.y < (n - 1):
                     self.y += 1
+            case 'jump_right':
+                if self.x < m - 2:
+                    self.x += 2
+            case 'jump_left':
+                if self.x > 1:
+                    self.x -= 2
+            case 'jump_up':
+                if self.y > 1:
+                    self.y -= 2
+            case 'jump_down':
+                if self.y < n - 2:
+                    self.y += 2
         return None
     
     def set(self, x, y):
@@ -160,14 +172,22 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_d:
+            if event.key == pygame.K_d and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
                 player.move('right')
-            if event.key == pygame.K_w:
+            if event.key == pygame.K_w and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
                 player.move('up')   
-            if event.key == pygame.K_s:
+            if event.key == pygame.K_s and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
                 player.move('down')
-            if event.key == pygame.K_a:
-                player.move('left') 
+            if event.key == pygame.K_a and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
+                player.move('left')
+            if event.key == pygame.K_d and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                player.move('jump_right')
+            if event.key == pygame.K_w and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                player.move('jump_up')
+            if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                player.move('jump_down')
+            if event.key == pygame.K_a and pygame.key.get_mods() & pygame.KMOD_SHIFT:
+                player.move('jump_left')
 
     pygame.display.flip() #"refresh" в pygame
     clock.tick(fps) #задержка
