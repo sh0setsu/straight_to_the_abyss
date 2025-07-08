@@ -107,7 +107,7 @@ tile_width = 30
 tile_height = 50
 
 #инициализация объектов
-player = Player(0, 4)
+player = Player(0, 0)
 field = Field(n, m)
 runtime = 0
 
