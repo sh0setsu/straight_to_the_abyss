@@ -11,13 +11,17 @@ class Player:
     def move(self, key):
         match key:
             case 'right':
-                self.x += 1
+                if self.x < m - 1:
+                    self.x += 1
             case 'left':
-                self.x -= 1
+                if self.x > 0:
+                    self.x -= 1
             case 'up':
-                self.y -= 1
+                if self.y > 0:
+                    self.y -= 1
             case 'down':
-                self.y += 1
+                if self.y < (n - 1):
+                    self.y += 1
         return None
     
     def set(self, x, y):
