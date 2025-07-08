@@ -44,7 +44,6 @@ class Field:
         k = 0
         i = 0
         j = 0
-        print(tiles_count)
         while k < tiles_count:
             if random.randint(0, 1) == 1 and self.matrix[i][j] == 0:
                 k += 1
