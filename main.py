@@ -1,10 +1,8 @@
 import pygame
-from src import player, field
+from src import player, field, functions, data
 import config
-from data import buttons
-from functions import set_title, settings_page, exit_game
 
-play_button, settings_button, exit_button = buttons
+play_button, settings_button, exit_button = data.buttons
 
 
 def game_running(active):
@@ -69,7 +67,7 @@ while active:
 
     for event in pygame.event.get():
         screen.fill(config.bg_color)
-        set_title(screen, 72, "ИГРА НА PYTHON", config.width, config.height)
+        functions.set_title(screen, 72, "ИГРА НА PYTHON", config.width, config.height)
         if event.type == pygame.QUIT:
             active = False
         if event.type == pygame.KEYDOWN:
@@ -79,16 +77,16 @@ while active:
             active = True
             game_running(active)
         if event.type == pygame.USEREVENT and event.button == settings_button:
-            settings_page(screen, config.bg_color, 72, "Настройки", config.width, config.height)
+            functions.settings_page(screen, config.bg_color, 72, "Настройки", config.width, config.height)
         if event.type == pygame.USEREVENT and event.button == exit_button:
             active = False
-            exit_game()
+            # functions.exit_game()
 
-        for i_button in buttons:
+        for i_button in data.buttons:
             i_button.handle_event(event)
 
 
-    for i_button in buttons:
+    for i_button in data.buttons:
         i_button.check_hover(pygame.mouse.get_pos())
         i_button.draw(screen)
 

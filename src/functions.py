@@ -1,6 +1,6 @@
 import pygame
 import sys
-from button import MenuButton
+from src import button
 
 
 def exit_game():
@@ -16,7 +16,7 @@ def set_title(screen, title_size, title_text, screen_width, screen_height):
 
 
 def settings_page(screen, bg_color, title_size, title, screen_width, screen_height):
-    back_button = MenuButton(screen_width / 2 - (252 / 2), 200, 252, 74, "Назад", "assets/pale.jpg", "assets/pale.jpg",
+    back_button = button.MenuButton(screen_width / 2 - (252 / 2), 200, 252, 74, "Назад", "assets/pale.jpg", "assets/pale.jpg",
                              "assets/click.mp3")
     buttons = [back_button]
 
