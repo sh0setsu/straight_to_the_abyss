@@ -74,3 +74,10 @@ class Field:
         if self.matrix[y][x] != 0:
             return True
         return False
+    
+    def clear(self):
+        for i in range(config.n):
+            for j in range(config.m):
+                if (i == 0 and j == 0) or (i == config.n - 1 and j == config.m - 1):
+                    continue
+                self.matrix[i][j] = 0
