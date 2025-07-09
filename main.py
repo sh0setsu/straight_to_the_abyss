@@ -5,8 +5,10 @@ import config
 def game_running(active):
     runtime = 0
     running = True
+    field.clear()
+    field.generate()
     player.set(0, 0)
-    while running and active:
+    while running:
         screen.fill((255, 255, 255))  # заливка окна
         runtime += 1
         if runtime == config.fps:
@@ -15,10 +17,8 @@ def game_running(active):
 
         player_x, player_y = player.get()
         if player.check_win():
-            running = False
             return True
         elif not field.check_tile(player_x, player_y):
-            running = False
             return True
         field.draw_grid(screen)
         player.draw_player(screen)
@@ -57,7 +57,6 @@ pygame.init()
 
 screen = pygame.display.set_mode((config.width, config.height))  # создание основного окна
 clock = pygame.time.Clock()
-field.generate()
 
 active = True
 while active:
