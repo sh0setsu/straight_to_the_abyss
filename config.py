@@ -15,6 +15,7 @@ character_height = 100
 tiles_count = int(m * n / 2)  # надо изменить
 tile_width = 100
 tile_height = 100
+bg_color = (0, 0, 0)
 
 pygame.init()
 pygame.display.set_mode((1, 1))
