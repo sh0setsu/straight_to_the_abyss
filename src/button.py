@@ -14,11 +14,14 @@ class MenuButton:
         if hover_image_path:
             self.hover_image = pygame.image.load(hover_image_path)
             self.hover_image = pygame.transform.scale(self.hover_image, (width, height))
+        self.current_image = self.image ###
         self.rect = self.image.get_rect(topleft=(x, y))
         self.sound = None
-        # if sound_path:
-        #     self.sound = pygame.mixer.Sound(sound_path)
+        pygame.mixer.init(44100, -16, 2, 2048)
+        if sound_path:
+            self.sound = pygame.mixer.Sound(sound_path) ##########
         self.is_hovered = False
+        self.last_hover_state = False
 
     def draw(self, screen):
         current_image = self.hover_image if self.is_hovered else self.image
@@ -30,11 +33,21 @@ class MenuButton:
         screen.blit(text_surface, text_rect)
 
     def check_hover(self, mouse_position):
+        #self.is_hovered = self.rect.collidepoint(mouse_position)
+        #self.hover_image.set_alpha(90)
+
+        self.last_hover_state = self.is_hovered
         self.is_hovered = self.rect.collidepoint(mouse_position)
-        self.hover_image.set_alpha(90)
+
+        # Изменяем изображение только при изменении состояния
+        if self.is_hovered != self.last_hover_state:
+            if self.is_hovered:
+                self.current_image = self.hover_image
+            else:
+                self.current_image = self.image
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.is_hovered:
-            # if self.sound:
-            #     self.sound.play()
+            if self.sound:
+                self.sound.play() ###############3
             pygame.event.post(pygame.event.Event(pygame.USEREVENT, button=self))
