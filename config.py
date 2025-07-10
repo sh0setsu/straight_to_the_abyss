@@ -3,23 +3,31 @@ import pygame
 # входные переменные
 n = 4  # кол-во строк
 m = 12  # кол-во столбцов
-width = 1280  # ширина экрана
+base_width = 1400
+base_height = 640
+width = 1400  # ширина экрана
 height = 640  # высота экрана
 half_decay_time = 6  # с какой секунды плита треснет
 decay_time = 3  # с какой секунды плита будет выглядеть как почти сломавшаяся
-min_start_tile_time = 7  # для рандома стартового времени платформы
-max_start_tile_time = 9  # для рандома стартового времени платформы
+min_start_tile_time = 3  # для рандома стартового времени платформы
+max_start_tile_time = 10  # для рандома стартового времени платформы
 fps = 60
 character_width = 100
 character_height = 100
-tiles_count = int(m * n / 2)  # надо изменить
+character_shift = 65
+tiles_count = int(m * n / 2) + 10  # надо изменить
 tile_width = 100
 tile_height = 100
+upper_margin = character_height
+left_margin = 20
+right_margin = 20
+bottom_margin = 200
+bg_color = (0, 0, 0)
 
 pygame.init()
 pygame.display.set_mode((1, 1))
 character_img = pygame.image.load('img/character.png').convert_alpha()
-character_img = pygame.transform.scale(character_img, (character_width, character_height))
+character_img = pygame.transform.scale(character_img, (character_width * 7, character_height))
 tile_img = pygame.image.load('img/tile.png').convert_alpha()
 tile_img = pygame.transform.scale(tile_img, (tile_width, tile_height))
 final_tile_img = pygame.image.load('img/final_tile.png').convert_alpha()

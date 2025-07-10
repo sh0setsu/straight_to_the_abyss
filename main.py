@@ -1,74 +1,74 @@
 import pygame
-from src import player, field
+from src import functions, data, game
 import config
-
-def game_running(active):
-    runtime = 0
-    running = True
-    field.clear()
-    field.generate()
-    player.set(0, 0)
-    while running:
-        screen.fill((255, 255, 255))  # заливка окна
-        runtime += 1
-        if runtime == config.fps:
-            field.tick()
-            runtime = 0
-
-        player_x, player_y = player.get()
-        if player.check_win():
-            return True
-        elif not field.check_tile(player_x, player_y):
-            return True
-        field.draw_grid(screen)
-        player.draw_player(screen)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return False
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_d and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                    player.move('right')
-                if event.key == pygame.K_w and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                    player.move('up')
-                if event.key == pygame.K_s and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                    player.move('down')
-                if event.key == pygame.K_a and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
-                    player.move('left')
-                if event.key == pygame.K_d and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    player.move('jump_right')
-                if event.key == pygame.K_w and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    player.move('jump_up')
-                if event.key == pygame.K_s and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    player.move('jump_down')
-                if event.key == pygame.K_a and pygame.key.get_mods() & pygame.KMOD_SHIFT:
-                    player.move('jump_left')
-        pygame.display.flip()  # "refresh" в pygame
-
-        clock.tick(config.fps)  # задержка
+import os
 
 
-# инициализация объектов
-player = player.Player(0, 0)
-field = field.Field(config.n, config.m)
+def resize_screen():
+    config.tile_height = config.tile_width = int(min((config.height - config.bottom_margin)  / config.n + 1, config.width / (config.m + 2)))
+    config.character_width, config.character_height = config.tile_width, config.tile_height
+    config.character_shift = int(config.tile_width * 0.65)
+    config.right_margin = config.left_margin = (config.width - config.m * config.tile_width) / 2
+    config.upper_margin = config.character_height
+    config.tile_img = pygame.transform.scale(config.tile_img, (config.tile_width, config.tile_height))
+    config.half_decay_tile_img = pygame.transform.scale(config.half_decay_tile_img, (config.tile_width, config.tile_height))
+    config.decay_tile_img = pygame.transform.scale(config.decay_tile_img, (config.tile_width, config.tile_height))
+    config.final_tile_img = pygame.transform.scale(config.final_tile_img, (config.tile_width, config.tile_height))
+    config.void_img = pygame.transform.scale(config.void_img, (config.tile_width, config.tile_height))
+    config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))
+    
+
+
+play_button, settings_button, exit_button = data.buttons
 
 # тело игры
 pygame.init()
-
 screen = pygame.display.set_mode((config.width, config.height))  # создание основного окна
+main_background = pygame.image.load(os.path.join("assets", "background.jpg")).convert()
+resize_screen()
+main_background = pygame.transform.scale(main_background, (config.width, config.height))
 clock = pygame.time.Clock()
 
 active = True
+fullscreen = False
 while active:
-    
+
     for event in pygame.event.get():
+        #screen.fill(config.bg_color)
+        screen.blit(main_background, (0, 0))
+        functions.set_title(screen, 72, "STRAIGHT TO THE ABYSS", config.width, config.height)
         if event.type == pygame.QUIT:
             active = False
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_RETURN:
-                active = game_running(active)
-    
-    pygame.display.flip()       
+            if event.key == pygame.K_F11:
+                fullscreen = not fullscreen
+                if fullscreen:
+                    screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+                    config.width, config.height = screen.get_size()
+                    main_background = pygame.transform.scale(main_background, (config.width, config.height))
+                    resize_screen()
+                else:
+                    config.width, config.height = config.base_width, config.base_height
+                    screen = pygame.display.set_mode((config.width, config.height))
+                    resize_screen()
+                    main_background = pygame.transform.scale(main_background, (config.width, config.height))
+        if event.type == pygame.USEREVENT and event.button == play_button:
+            active = game.game_running(active, screen)
+        if event.type == pygame.USEREVENT and event.button == settings_button:
+            active = functions.settings_page(screen, config.bg_color, 72, "Настройки", config.width, config.height)
+        if event.type == pygame.USEREVENT and event.button == exit_button:
+            active = False
+            # functions.exit_game()
+
+        for i_button in data.buttons:
+            i_button.handle_event(event)
+
+
+    for i_button in data.buttons:
+        i_button.check_hover(pygame.mouse.get_pos())
+        i_button.draw(screen)
+
+    pygame.display.flip()
     clock.tick(config.fps)
 
 pygame.quit()
