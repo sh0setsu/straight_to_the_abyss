@@ -4,6 +4,8 @@ from src.field import Field
 import config
 
 def game_running(active, screen):
+    config.character_img = pygame.image.load('img/character.png').convert_alpha()
+    config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))
     clock = pygame.time.Clock()
     player = Player(0, 0)
     field = Field(config.n, config.m)

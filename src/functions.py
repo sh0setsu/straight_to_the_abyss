@@ -6,7 +6,7 @@ import os
 
 def set_title(screen, title_size, title_text, screen_width, screen_height):
     font = pygame.font.Font(None, title_size)
-    text_surface = font.render(title_text, True, (0, 128, 128))
+    text_surface = font.render(title_text, True, (107, 142, 35))
     text_rect = text_surface.get_rect(center=(screen_width / 2, screen_height / 100 * 8))
     screen.blit(text_surface, text_rect)
 
