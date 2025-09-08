@@ -16,16 +16,30 @@ class Field:
         #j = 0
         self.matrix[0][0] = -1
         self.matrix[config.n - 1][config.m - 1] = -1
+
         while k < amount:
             block_size = random.randint(1, config.max_block_size)
             if k + block_size > amount:
                 block_size = amount - k
-            print(block_size)
             x = 0
             y = 0
-            while self.matrix[x][y] != 0:
-                x = random.randint(0, config.n - 1)
-                y = random.randint(0, config.m - 1)
+            stop_flag = False
+            for i in range(config.n - 3):
+                for j in range(config.m - 3):
+                    if (i == 0 and j == 0) or (i == config.n - 3 and j == config.m - 3):
+                        continue
+                    if (self.matrix[i][j] + self.matrix[i][j + 1] + self.matrix[i][j + 2] +
+                        self.matrix[i + 1][j] + self.matrix[i + 1][j + 1] + self.matrix[i + 1][j + 2] +
+                        self.matrix[i + 2][j] + self.matrix[i + 2][j + 1] + self.matrix[i + 2][j + 2] == 0):
+                        x = i + random.randint(0, 2)
+                        y = j + random.randint(0, 2)
+                        break
+                if stop_flag:
+                    break
+            if not stop_flag:
+                while self.matrix[x][y] != 0:
+                    x = random.randint(0, config.n - 1)
+                    y = random.randint(0, config.m - 1)
             self.matrix[x][y] = random.randint(config.min_start_tile_time, config.max_start_tile_time)
             block_size -= 1
             k += 1
