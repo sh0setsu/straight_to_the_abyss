@@ -9,7 +9,7 @@ def game_running(active, screen):
     clock = pygame.time.Clock()
     player = Player(0, 0)
     field = Field(config.n, config.m)
-    field.generate()
+    field.generate(config.tiles_count)
     runtime = 0
     running = True
     game_running = True
@@ -42,7 +42,7 @@ def game_running(active, screen):
                 if not game_running and event.key == pygame.K_RETURN:
                     player.set(0, 0)
                     field.clear()
-                    field.generate()
+                    field.generate(config.tiles_count)
                     config.character_img = pygame.transform.flip(config.character_img, True, True)
                     game_running = True
                 if game_running:

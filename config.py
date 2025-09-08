@@ -1,21 +1,21 @@
 import pygame
 
 # входные переменные
-n = 4  # кол-во строк
+n = 8  # кол-во строк
 m = 12  # кол-во столбцов
 base_width = 1400
 base_height = 640
 width = 1400  # ширина экрана
 height = 640  # высота экрана
-half_decay_time = 6  # с какой секунды плита треснет
-decay_time = 3  # с какой секунды плита будет выглядеть как почти сломавшаяся
-min_start_tile_time = 3  # для рандома стартового времени платформы
-max_start_tile_time = 10  # для рандома стартового времени платформы
+half_decay_time = 8  # с какой секунды плита треснет
+decay_time = 2  # с какой секунды плита будет выглядеть как почти сломавшаяся
+min_start_tile_time = 4  # для рандома стартового времени платформы
+max_start_tile_time = 14  # для рандома стартового времени платформы
 fps = 60
 character_width = 100
 character_height = 100
 character_shift = 65
-tiles_count = int(m * n / 2) + 10  # надо изменить
+tiles_count = int(m * n / 2)
 tile_width = 100
 tile_height = 100
 upper_margin = character_height
@@ -23,6 +23,7 @@ left_margin = 20
 right_margin = 20
 bottom_margin = 200
 bg_color = (0, 0, 0)
+max_block_size = 4
 
 pygame.init()
 pygame.display.set_mode((1, 1))
