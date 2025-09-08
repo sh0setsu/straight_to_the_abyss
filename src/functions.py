@@ -31,10 +31,13 @@ def skins_page(screen, bg_color, title_size, title, screen_width, screen_height,
     skin3_button = button.MenuButton(screen_width / 2 - (252 / 2), 400, 252, 74, "", os.path.join("skins", "skin3.png"),
                                      os.path.join("skins", "skin3.png"),
                                      "assets/click.mp3")
-    back_button = button.MenuButton(screen_width / 2 - (252 / 2), 500, 252, 74, "Назад", "assets/pale.jpg",
+    skin4_button = button.MenuButton(screen_width / 2 - (252 / 2), 500, 252, 74, "", os.path.join("skins", "skin4.png"),
+                                     os.path.join("skins", "skin4.png"),
+                                     "assets/click.mp3")
+    back_button = button.MenuButton(screen_width / 2 - (252 / 2), 600, 252, 74, "Назад", "assets/pale.jpg",
                                     "assets/pale.jpg",
                                     "assets/click.mp3")
-    buttons = [skin1_button, skin2_button, skin3_button, back_button]
+    buttons = [skin1_button, skin2_button, skin3_button, skin4_button, back_button]
 
     while active:
         screen.blit(background, (0, 0))
@@ -60,6 +63,9 @@ def skins_page(screen, bg_color, title_size, title, screen_width, screen_height,
             if event.type == pygame.USEREVENT and event.button == skin3_button:
                 config.current_skin = os.path.join("skins", "skin3.png")
 
+            if event.type == pygame.USEREVENT and event.button == skin4_button:
+                config.current_skin = os.path.join("skins", "skin4.png")
+
             for i_button in buttons:
                 i_button.handle_event(event)
 
@@ -75,7 +81,7 @@ def skins_page(screen, bg_color, title_size, title, screen_width, screen_height,
 def settings_page(screen, bg_color, title_size, title, screen_width, screen_height, active=True):  # Дополни!
     background = pygame.image.load(os.path.join("assets", "background2.jpg")).convert()
     background = pygame.transform.scale(background, (screen_width, screen_height))
-    back_button = button.MenuButton(screen_width / 2 - (252 / 2), 200, 252, 74, "Назад", "assets/pale.jpg",
+    back_button = button.MenuButton(screen_width / 2 - (252 / 2), 400, 252, 74, "Назад", "assets/pale.jpg",
                                     "assets/pale.jpg",
                                     "assets/click.mp3")
     skins_button = button.MenuButton(screen_width / 2 - (252 / 2), 300, 252, 74, "Скины", "assets/pale.jpg",
