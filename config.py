@@ -1,12 +1,17 @@
 import pygame
 
+pygame.init()
+info = pygame.display.Info()
+width = info.current_w
+height = info.current_h
+
 # входные переменные
 n = 4  # кол-во строк
 m = 12  # кол-во столбцов
-base_width = 1400
-base_height = 640
-width = 1400  # ширина экрана
-height = 640  # высота экрана
+base_width = width
+base_height = height
+# width = 1400  # ширина экрана
+# height = 640  # высота экрана
 half_decay_time = 6  # с какой секунды плита треснет
 decay_time = 3  # с какой секунды плита будет выглядеть как почти сломавшаяся
 min_start_tile_time = 3  # для рандома стартового времени платформы
@@ -24,8 +29,9 @@ right_margin = 20
 bottom_margin = 200
 bg_color = (0, 0, 0)
 
-pygame.init()
-pygame.display.set_mode((1, 1))
+
+# pygame.display.set_mode((1, 1))
+screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
 character_img = pygame.image.load('img/character.png').convert_alpha()
 character_img = pygame.transform.scale(character_img, (character_width * 7, character_height))
 tile_img = pygame.image.load('img/tile.png').convert_alpha()
