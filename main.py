@@ -5,16 +5,15 @@ import os
 
 
 def resize_screen():
-    config.tile_height = config.tile_width = int(min((config.height - config.bottom_margin)  / config.n + 1, config.width / (config.m + 2)))
+    config.tile_height = config.tile_width = int(min((config.height - config.bottom_margin) / (config.n + 1), (config.width - config.left_margin - config.right_margin) / config.m))
     config.character_width, config.character_height = config.tile_width, config.tile_height
     config.character_shift = int(config.tile_width * 0.65)
-    config.right_margin = config.left_margin = (config.width - config.m * config.tile_width) / 2
     config.upper_margin = config.character_height
+    config.centalize_margin = (config.width - config.right_margin - config.left_margin - config.tile_width * config.m) / 2
     config.tile_img = pygame.transform.scale(config.tile_img, (config.tile_width, config.tile_height))
     config.half_decay_tile_img = pygame.transform.scale(config.half_decay_tile_img, (config.tile_width, config.tile_height))
     config.decay_tile_img = pygame.transform.scale(config.decay_tile_img, (config.tile_width, config.tile_height))
     config.final_tile_img = pygame.transform.scale(config.final_tile_img, (config.tile_width, config.tile_height))
-    config.void_img = pygame.transform.scale(config.void_img, (config.tile_width, config.tile_height))
     config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))
     
 

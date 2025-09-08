@@ -19,9 +19,10 @@ tiles_count = int(m * n / 2)
 tile_width = 100
 tile_height = 100
 upper_margin = character_height
-left_margin = 20
-right_margin = 20
+left_margin = 120
+right_margin = 120
 bottom_margin = 200
+centalize_margin = (width - right_margin - left_margin - tile_width * m) / 2
 bg_color = (0, 0, 0)
 max_block_size = 4
 
@@ -37,6 +38,4 @@ half_decay_tile_img = pygame.image.load('img/half_decay_tile.png').convert_alpha
 half_decay_tile_img = pygame.transform.scale(half_decay_tile_img, (tile_width, tile_height))
 decay_tile_img = pygame.image.load('img/decay_tile.png').convert_alpha()
 decay_tile_img = pygame.transform.scale(decay_tile_img, (tile_width, tile_height))
-void_img = pygame.image.load('img/void.png').convert_alpha()
-void_img = pygame.transform.scale(void_img, (tile_width, tile_height))
 pygame.quit()

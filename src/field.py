@@ -103,19 +103,18 @@ class Field:
     def draw_grid(self, screen):
         for i in range(config.n):
             for j in range(config.m):
-                screen.blit(config.void_img, (config.left_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
                 if i == 0 and j == 0:
-                    screen.blit(config.tile_img, (config.left_margin, config.upper_margin))
+                    screen.blit(config.tile_img, (config.left_margin + config.centalize_margin, config.upper_margin))
                 elif i == config.n - 1 and j == config.m - 1:
-                    screen.blit(config.final_tile_img, (config.left_margin + (config.m - 1) * config.tile_width, config.upper_margin + (config.n - 1) * config.tile_height))
+                    screen.blit(config.final_tile_img, (config.left_margin + config.centalize_margin + (config.m - 1) * config.tile_width, config.upper_margin + (config.n - 1) * config.tile_height))
                 elif self.matrix[i][j] == 0:
                     pass
                 elif self.matrix[i][j] <= config.decay_time:
-                    screen.blit(config.decay_tile_img, (config.left_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+                    screen.blit(config.decay_tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
                 elif self.matrix[i][j] <= config.half_decay_time:
-                    screen.blit(config.half_decay_tile_img, (config.left_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+                    screen.blit(config.half_decay_tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
                 else:
-                    screen.blit(config.tile_img, (config.left_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+                    screen.blit(config.tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
         return None
     
     def check_tile(self, x, y):

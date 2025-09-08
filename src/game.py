@@ -24,7 +24,7 @@ def game_running(active, screen):
 
             player_x, player_y = player.get()
             if player.check_win():
-                game_running = False
+                game_running = False 
                 config.character_img = pygame.transform.flip(config.character_img, True, True)
             elif not field.check_tile(player_x, player_y):
                 game_running = False
