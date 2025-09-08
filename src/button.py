@@ -8,6 +8,13 @@ class MenuButton:
         self.width = width
         self.height = height
         self.text = text
+        # self.border_color = (255, 255, 255, 0.5)  # белый
+        # self.border_width = 2
+        self.shadow_color = (255, 255, 255)
+        self.shadow_offset = 0
+        # Создаем поверхность для тени
+        self.shadow_surf = pygame.Surface((width, height), pygame.SRCALPHA)
+        self.shadow_surf.fill((255, 255, 255))
         self.image = pygame.image.load(image_path)
         self.image = pygame.transform.scale(self.image, (width, height))
         self.hover_image = self.image
@@ -25,16 +32,22 @@ class MenuButton:
 
     def draw(self, screen):
         current_image = self.hover_image if self.is_hovered else self.image
+        shadow_rect = self.rect.copy()
+        shadow_rect.x += self.shadow_offset
+        shadow_rect.y += self.shadow_offset
+        screen.blit(self.shadow_surf, shadow_rect.topleft)
         screen.blit(current_image, self.rect.topleft)
 
         font = pygame.font.Font(None, 40)
         text_surface = font.render(self.text, True, (255, 255, 255))
+        # if self.border_width > 0 and self.border_color is not None:
+        #     pygame.draw.rect(screen, self.border_color, self.rect, self.border_width)
         text_rect = text_surface.get_rect(center=self.rect.center)
         screen.blit(text_surface, text_rect)
 
     def check_hover(self, mouse_position):
-        #self.is_hovered = self.rect.collidepoint(mouse_position)
-        #self.hover_image.set_alpha(90)
+        # self.is_hovered = self.rect.collidepoint(mouse_position)
+        self.hover_image.set_alpha(180)
 
         self.last_hover_state = self.is_hovered
         self.is_hovered = self.rect.collidepoint(mouse_position)

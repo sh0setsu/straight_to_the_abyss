@@ -5,7 +5,7 @@ from src.field import Field
 
 
 def load_character_image():
-    img = pygame.image.load('img/character.png').convert_alpha()
+    img = pygame.image.load(config.current_skin).convert_alpha()
     return pygame.transform.scale(img, (config.character_width * 7, config.character_height))
 
 

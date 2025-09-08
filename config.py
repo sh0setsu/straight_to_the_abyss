@@ -1,3 +1,4 @@
+import os
 import pygame
 
 pygame.init()
@@ -28,11 +29,12 @@ left_margin = 20
 right_margin = 20
 bottom_margin = 200
 bg_color = (0, 0, 0)
+current_skin = os.path.join('img','character.png')
 
 
 # pygame.display.set_mode((1, 1))
 screen = pygame.display.set_mode((width, height), pygame.RESIZABLE)
-character_img = pygame.image.load('img/character.png').convert_alpha()
+character_img = pygame.image.load(current_skin).convert_alpha()
 character_img = pygame.transform.scale(character_img, (character_width * 7, character_height))
 tile_img = pygame.image.load('img/tile.png').convert_alpha()
 tile_img = pygame.transform.scale(tile_img, (tile_width, tile_height))
