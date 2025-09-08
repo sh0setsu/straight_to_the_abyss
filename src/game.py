@@ -3,6 +3,18 @@ from src.player import Player
 from src.field import Field
 import config
 
+def get_abyss_color(level):
+    base_dark = (10, 15, 40)
+    base_deep = (20, 25, 60)
+    
+    darkness = min(level / 10, 0.8)
+    
+    r = int(base_deep[0] * (1 - darkness) + base_dark[0] * darkness)
+    g = int(base_deep[1] * (1 - darkness) + base_dark[1] * darkness)
+    b = int(base_deep[2] * (1 - darkness) + base_dark[2] * darkness)
+    
+    return (r, g, b)
+
 def game_running(active, screen):
     config.character_img = pygame.image.load('img/character.png').convert_alpha()
     config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))
@@ -15,7 +27,7 @@ def game_running(active, screen):
     game_running = True
     player.set(0, 0)
     while running and active:
-        screen.fill((7,24,33))  # заливка окна
+        screen.fill(get_abyss_color(config.current_level))  # заливка окна
         if game_running:
             runtime += 1
             if runtime == config.fps:
@@ -40,6 +52,10 @@ def game_running(active, screen):
                     game_running = False
                     running = False
                 if not game_running and event.key == pygame.K_RETURN:
+                    if (player.check_win()):
+                        config.current_level += 1
+                    else:
+                        config.current_level = 0
                     player.set(0, 0)
                     field.clear()
                     field.generate(config.tiles_count)

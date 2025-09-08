@@ -25,6 +25,7 @@ bottom_margin = 200
 centalize_margin = (width - right_margin - left_margin - tile_width * m) / 2
 bg_color = (0, 0, 0)
 max_block_size = 4
+current_level = 0
 
 pygame.init()
 pygame.display.set_mode((1, 1))
