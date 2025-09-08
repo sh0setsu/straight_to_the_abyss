@@ -15,6 +15,22 @@ def get_abyss_color(level):
     
     return (r, g, b)
 
+def game_level_change():
+    match config.current_level:
+        case 0:
+            tiles_count = int(config.m * config.n / 2)
+        case 1:
+            tiles_count -= 2
+        case 2:
+            tiles_count -= 2
+        case 3:
+            tiles_count -= 2
+        case 4:
+            tiles_count -= 2
+        case 5:
+            tiles_count -= 2
+
+
 def game_running(active, screen):
     config.character_img = pygame.image.load('img/character.png').convert_alpha()
     config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))

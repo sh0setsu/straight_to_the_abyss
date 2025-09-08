@@ -24,18 +24,19 @@ class Field:
             x = 0
             y = 0
             stop_flag = False
-            for i in range(config.n - 3):
-                for j in range(config.m - 3):
-                    if (i == 0 and j == 0) or (i == config.n - 3 and j == config.m - 3):
-                        continue
-                    if (self.matrix[i][j] + self.matrix[i][j + 1] + self.matrix[i][j + 2] +
-                        self.matrix[i + 1][j] + self.matrix[i + 1][j + 1] + self.matrix[i + 1][j + 2] +
-                        self.matrix[i + 2][j] + self.matrix[i + 2][j + 1] + self.matrix[i + 2][j + 2] == 0):
-                        x = i + random.randint(0, 2)
-                        y = j + random.randint(0, 2)
+            if config.auto_help:
+                for i in range(config.n - 3):
+                    for j in range(config.m - 3):
+                        if (self.matrix[i][j] + self.matrix[i][j + 1] + self.matrix[i][j + 2] +
+                            self.matrix[i + 1][j] + self.matrix[i + 1][j + 1] + self.matrix[i + 1][j + 2] +
+                            self.matrix[i + 2][j] + self.matrix[i + 2][j + 1] + self.matrix[i + 2][j + 2] <= 0):
+                            while self.matrix[x][y] != 0:
+                                x = i + random.randint(0, 2)
+                                y = j + random.randint(0, 2)
+                            stop_flag = True
+                            break
+                    if stop_flag:
                         break
-                if stop_flag:
-                    break
             if not stop_flag:
                 while self.matrix[x][y] != 0:
                     x = random.randint(0, config.n - 1)
