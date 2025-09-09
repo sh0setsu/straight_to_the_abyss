@@ -47,14 +47,9 @@ class Player:
     def draw_player(self, screen, alive):
         if alive:
             part_rect = pygame.Rect(int(self.state) * config.character_width, 0, config.character_width, config.character_height)
-            screen.blit(config.character_img.subsurface(part_rect), (config.left_margin + self.x * config.tile_width, config.upper_margin - config.character_shift + self.y * config.tile_height))
+            screen.blit(config.character_img.subsurface(part_rect), (config.left_margin + config.centalize_margin + self.x * config.tile_width, config.upper_margin - config.character_shift + self.y * config.tile_height))
             self.state = (self.state + 15 / config.fps) % 7
         else:
             part_rect = pygame.Rect(int(self.state) * config.character_width, 0, config.character_width, config.character_height)
-            screen.blit(config.character_img.subsurface(part_rect), (config.left_margin + self.x * config.tile_width, config.upper_margin + self.y * config.tile_height))
+            screen.blit(config.character_img.subsurface(part_rect), (config.left_margin + config.centalize_margin + self.x * config.tile_width, config.upper_margin + self.y * config.tile_height))
         return None
-    
-    def check_win(self):
-        if self.x == config.m - 1 and self.y == config.n - 1:
-            return True
-        return False
