@@ -21,17 +21,16 @@ def set_title(screen, title_size, title_text, screen_width, screen_height):
 def skins_page(screen, bg_color, title_size, title, screen_width, screen_height, active=True):  # Дополни!
     background = pygame.image.load(os.path.join("assets", "background2.jpg")).convert()
     background = pygame.transform.scale(background, (screen_width, screen_height))
-
-    skin1_button = button.MenuButton(screen_width / 2 - (252 / 2), 200, 252, 74, "", os.path.join("skins", "skin1.png"),
+    skin1_button = button.MenuButton(screen_width / 2 - (450 / 2), 200, 450, 74, "", os.path.join("skins", "skin1.png"),
                                      os.path.join("skins", "skin1.png"),
                                      "assets/click.mp3")
-    skin2_button = button.MenuButton(screen_width / 2 - (252 / 2), 300, 252, 74, "", os.path.join("skins", "skin2.png"),
+    skin2_button = button.MenuButton(screen_width / 2 - (450 / 2), 300, 450, 74, "", os.path.join("skins", "skin2.png"),
                                      os.path.join("skins", "skin2.png"),
                                      "assets/click.mp3")
-    skin3_button = button.MenuButton(screen_width / 2 - (252 / 2), 400, 252, 74, "", os.path.join("skins", "skin3.png"),
+    skin3_button = button.MenuButton(screen_width / 2 - (450 / 2), 400, 450, 74, "", os.path.join("skins", "skin3.png"),
                                      os.path.join("skins", "skin3.png"),
                                      "assets/click.mp3")
-    skin4_button = button.MenuButton(screen_width / 2 - (252 / 2), 500, 252, 74, "", os.path.join("skins", "skin4.png"),
+    skin4_button = button.MenuButton(screen_width / 2 - (450 / 2), 500, 450, 74, "", os.path.join("skins", "skin4.png"),
                                      os.path.join("skins", "skin4.png"),
                                      "assets/click.mp3")
     back_button = button.MenuButton(screen_width / 2 - (252 / 2), 600, 252, 74, "Назад", "assets/pale.jpg",
