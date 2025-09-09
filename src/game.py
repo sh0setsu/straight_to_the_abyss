@@ -55,17 +55,20 @@ def game_running(active, screen):
     field.create_key()
     field.generate(config.tiles_count)
     runtime = 0
+    score = 300
     is_game_active = True
     player.set(0, 0)
     font = pygame.font.SysFont('Comic Sans', 36)  # Шрифт и размер
     while active:
         screen.fill(get_abyss_color(config.current_level))  # заливка окна
-        text_surface = font.render(f"""level: {config.current_level}        points: 1456""", True, (255, 255, 255))
+        text_surface = font.render(f"""level: {config.current_level}        points: {score}""", True, (255, 255, 255))
         screen.blit(text_surface, (config.left_margin + config.centalize_margin, config.height - config.upper_margin))
         if is_game_active:
             runtime += 1
             if runtime == config.fps:
                 field.tick()
+                if is_game_active:
+                    score -= 1
                 runtime = 0
 
             player_x, player_y = player.get()
@@ -94,8 +97,10 @@ def game_running(active, screen):
                     p_x, p_y = player.get()
                     if (field.check_tile(p_x, p_y) == -2):
                         config.current_level += 1
+                        score += 300
                     else:
                         config.current_level = 0
+                        score = 300
                     game_level_change()
                     player.set(0, 0)
                     field.clear()
