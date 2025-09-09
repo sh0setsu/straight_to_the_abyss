@@ -103,7 +103,7 @@ def game_running(active, screen):
                     field.create_key()
                     field.generate(config.tiles_count)
                     config.character_img = pygame.transform.flip(config.character_img, True, True)
-                    game_running = True
+                    is_game_active = True
 
                 if is_game_active:
                     if (event.key == pygame.K_d or event.key == pygame.K_RIGHT) and not (pygame.key.get_mods() & pygame.KMOD_SHIFT):
