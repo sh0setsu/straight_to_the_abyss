@@ -52,8 +52,11 @@ def game_running(active, screen):
     running = True
     game_running = True
     player.set(0, 0)
+    font = pygame.font.SysFont('Comic Sans', 36)  # Шрифт и размер
     while running and active:
         screen.fill(get_abyss_color(config.current_level))  # заливка окна
+        text_surface = font.render(f"""level: {config.current_level}        points: 1456""", True, (255, 255, 255))
+        screen.blit(text_surface, (config.left_margin + config.centalize_margin, config.height - config.upper_margin))
         if game_running:
             runtime += 1
             if runtime == config.fps:
