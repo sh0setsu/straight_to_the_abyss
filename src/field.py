@@ -9,13 +9,15 @@ class Field:
         self.n = n
         self.m = m
         self.matrix = np.zeros((n, m))
+        self.key_x = 0
+        self.key_y = 0
+        self.key_found = False
 
     def generate(self, amount):
         k = 0
         #i = 0
         #j = 0
         self.matrix[0][0] = -1
-        self.matrix[config.n - 1][config.m - 1] = -1
 
         while k < amount:
             block_size = random.randint(1, config.max_block_size)
@@ -104,6 +106,20 @@ class Field:
     #                k += 1
     #    return None
 
+    def create_key(self):
+        if config.key_challenge:
+            while self.matrix[self.key_x][self.key_y] != 0:
+                self.key_x = random.randint(0, config.n - 1)
+                self.key_y = random.randint(0, config.m - 1)
+            self.matrix[self.key_x][self.key_y] = -1
+            self.key_found = False
+
+    def create_portal(self):
+        if config.portal_challenge:
+            self.matrix[random.randint(int(config.n / 4), config.n - 1)][random.randint(int(config.m / 4), config.m - 1)] = -2
+        else:
+            self.matrix[config.n - 1][config.m - 1] = -2
+
     def tick(self):
         k = 0
         for i in range(config.n):
@@ -118,10 +134,12 @@ class Field:
     def draw_grid(self, screen):
         for i in range(config.n):
             for j in range(config.m):
-                if i == 0 and j == 0:
-                    screen.blit(config.tile_img, (config.left_margin + config.centalize_margin, config.upper_margin))
-                elif i == config.n - 1 and j == config.m - 1:
-                    screen.blit(config.final_tile_img, (config.left_margin + config.centalize_margin + (config.m - 1) * config.tile_width, config.upper_margin + (config.n - 1) * config.tile_height))
+                if self.matrix[i][j] == -1:
+                    screen.blit(config.tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+                elif self.matrix[i][j] == -2:
+                    screen.blit(config.final_tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+                    if config.key_challenge and not self.key_found:
+                        screen.blit(config.keyhole_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
                 elif self.matrix[i][j] == 0:
                     pass
                 elif self.matrix[i][j] <= config.decay_time:
@@ -130,16 +148,22 @@ class Field:
                     screen.blit(config.half_decay_tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
                 else:
                     screen.blit(config.tile_img, (config.left_margin + config.centalize_margin + j * config.tile_width, config.upper_margin + i * config.tile_height))
+        if config.key_challenge and not self.key_found:    
+            screen.blit(config.key_img, (config.left_margin + config.centalize_margin +  (self.key_y + 0.25) * config.tile_width, config.upper_margin + (self.key_x + 0.25) * config.tile_height))
         return None
     
     def check_tile(self, x, y):
-        if self.matrix[y][x] != 0:
-            return True
-        return False
+        if self.matrix[y][x] == -2 and config.key_challenge and not self.key_found:
+            return -1
+        return self.matrix[y][x]
+    
+    def check_key(self, x, y):
+        if y == self.key_x and x == self.key_y:
+            self.key_found = True
+        return None
     
     def clear(self):
         for i in range(config.n):
             for j in range(config.m):
-                if (i == 0 and j == 0) or (i == config.n - 1 and j == config.m - 1):
-                    continue
                 self.matrix[i][j] = 0
+        self.matrix[0][0] = -1

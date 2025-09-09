@@ -15,6 +15,8 @@ def resize_screen():
     config.decay_tile_img = pygame.transform.scale(config.decay_tile_img, (config.tile_width, config.tile_height))
     config.final_tile_img = pygame.transform.scale(config.final_tile_img, (config.tile_width, config.tile_height))
     config.character_img = pygame.transform.scale(config.character_img, (config.character_width * 7, config.character_height))
+    config.key_img = pygame.transform.scale(config.key_img, (config.tile_width / 2, config.tile_height / 2))
+    config.keyhole_img = pygame.transform.scale(config.keyhole_img, (config.tile_width, config.tile_height))
     
 
 

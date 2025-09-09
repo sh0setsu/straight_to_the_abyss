@@ -18,17 +18,25 @@ def get_abyss_color(level):
 def game_level_change():
     match config.current_level:
         case 0:
-            tiles_count = int(config.m * config.n / 2)
+            config.tiles_count = int(config.m * config.n / 2)
+            config.max_block_size = 4
+            config.max_start_tile_time = 16
+            config.key_challenge = False
         case 1:
-            tiles_count -= 2
+            config.tiles_count -= 2
+            config.max_block_size = 3
+            config.max_start_tile_time = 12
         case 2:
-            tiles_count -= 2
+            config.tiles_count -= 2
+            config.key_challenge = True
         case 3:
-            tiles_count -= 2
+            config.tiles_count -= 2
+            config.portal_challenge = True
         case 4:
-            tiles_count -= 2
+            config.tiles_count -= 2
         case 5:
-            tiles_count -= 2
+            config.tiles_count -= 2
+    return None
 
 
 def game_running(active, screen):
@@ -37,6 +45,8 @@ def game_running(active, screen):
     clock = pygame.time.Clock()
     player = Player(0, 0)
     field = Field(config.n, config.m)
+    field.create_portal()
+    field.create_key()
     field.generate(config.tiles_count)
     runtime = 0
     running = True
@@ -51,10 +61,11 @@ def game_running(active, screen):
                 runtime = 0
 
             player_x, player_y = player.get()
-            if player.check_win():
+            field.check_key(player_x, player_y)
+            if (field.check_tile(player_x, player_y) == -2):
                 game_running = False 
                 config.character_img = pygame.transform.flip(config.character_img, True, True)
-            elif not field.check_tile(player_x, player_y):
+            elif field.check_tile(player_x, player_y) == 0:
                 game_running = False
                 config.character_img = pygame.transform.flip(config.character_img, True, True)
         field.draw_grid(screen)
@@ -68,12 +79,16 @@ def game_running(active, screen):
                     game_running = False
                     running = False
                 if not game_running and event.key == pygame.K_RETURN:
-                    if (player.check_win()):
+                    p_x, p_y = player.get()
+                    if (field.check_tile(p_x, p_y) == -2):
                         config.current_level += 1
                     else:
                         config.current_level = 0
+                    game_level_change()
                     player.set(0, 0)
                     field.clear()
+                    field.create_portal()
+                    field.create_key()
                     field.generate(config.tiles_count)
                     config.character_img = pygame.transform.flip(config.character_img, True, True)
                     game_running = True
